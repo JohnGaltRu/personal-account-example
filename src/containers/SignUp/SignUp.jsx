@@ -13,7 +13,24 @@ function closeModal(event) {
     }
 }
 
-function SignUp() {
+function sendData(event) {
+    event.preventDefault();
+    const form = document.forms.signupForm;
+    fetch(
+        '',
+        {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json;charset=utf-8'},
+            body: new FormData(form)
+        }
+    )
+    .then((res) => res.json)
+    .then((res) => console.log(res))
+    .then(() => alert('Success!'))
+    .catch((error) => console.log(error.message))
+}
+
+function Signup() {
 	return (
 		<React.Fragment>
 			<div className="modal-wrap hide" id="signup" onClick= {closeModal}>
@@ -25,7 +42,7 @@ function SignUp() {
 					<div className="form-slider-wrapper">
 						<div className="form-slider">
 							<div className="left-50">
-								<form>
+								<form name= 'signupForm'>
 									<div className="row">
 										<div className="input-field col l6">
 											<input
@@ -143,6 +160,7 @@ function SignUp() {
 											<button
 												id="signup-submit"
 												className="waves-effect waves-light btn disabled"
+												onClick= {sendData}
 											>
 												Sign In
 											</button>
@@ -202,4 +220,4 @@ function SignUp() {
 	);
 }
 
-export default SignUp;
+export default Signup;

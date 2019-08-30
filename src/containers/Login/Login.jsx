@@ -12,11 +12,28 @@ function closeModal(event) {
     }
 }
 
+function sendData(event) {
+    event.preventDefault();
+    const form = document.forms.loginForm;
+    fetch(
+        '',
+        {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json;charset=utf-8'},
+            body: new FormData(form)
+        }
+    )
+    .then((res) => res.json)
+    .then((res) => console.log(res))
+    .then(() => alert('Success!'))
+    .catch((error) => console.log(error.message))
+}
+
 function Login() {
     return (
         <div className="modal-wrap hide" id="login" onClick={closeModal}>
             <div className="modal-project">
-                <form>
+                <form name= 'loginForm'>
                     <div className="row">
                         <div className="input-field col l12">
                             <input
@@ -45,6 +62,7 @@ function Login() {
                             <button
                                 id="login-submit"
                                 className="waves-effect waves-light btn"
+                                onClick= {sendData}
                             >
                                 Login
                             </button>
