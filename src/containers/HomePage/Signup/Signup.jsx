@@ -1,5 +1,7 @@
 import React from "react";
 import { DatePicker } from "react-materialize";
+import { Link } from "react-router-dom";
+
 
 function closeModal(event) {
     if (
@@ -14,20 +16,15 @@ function closeModal(event) {
 }
 
 function sendData(event) {
-    event.preventDefault();
     const form = document.forms.signupForm;
-    fetch(
-        '',
-        {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json;charset=utf-8'},
-            body: new FormData(form)
-        }
-    )
-    .then((res) => res.json)
-    .then((res) => console.log(res))
-    .then(() => alert('Success!'))
-    .catch((error) => console.log(error.message))
+    const name = form.name.value;
+    const pass = form.pass.value;
+    const email = form.email.value;
+    const birthday = form.birthday.value;
+    if (!name || !pass || !email || !birthday) {
+        alert('Fill all the fields!'); 
+        event.preventDefault();
+    }
 }
 
 function Signup() {
@@ -157,13 +154,15 @@ function Signup() {
 											</p>
 										</div>
 										<div className="col l12 right-align">
-											<button
-												id="signup-submit"
-												className="waves-effect waves-light btn disabled"
-												onClick= {sendData}
-											>
-												Sign In
-											</button>
+											<Link to= "/cabinet" style={{ textDecoration: 'none', color: 'white' }}>
+												<button
+													id="signup-submit"
+													className="waves-effect waves-light btn disabled"
+													onClick= {sendData}
+												>
+													Sign In
+												</button>
+											</Link>	
 										</div>
 									</div>
 								</form>
