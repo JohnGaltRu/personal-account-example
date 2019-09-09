@@ -1,24 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function closeModal(event) {
-    if (
-        event.target.classList.contains("modal-wrap") ||
-        event.target.classList.contains("modal-project-close")
-    ) {
-        document.querySelectorAll(".modal-wrap").forEach(function(element) {
-            element.classList.add("hide");
-        });
-        document.onkeydown = null;
-    }
-}
-
 class Login extends React.Component {
     constructor(props) {
         super(props);
+        //'approved' needed for Link. If it is '1' we will apply transition, if '0' cancel.
         this.state = { approved: 0 };
-        this.login = this.login.bind(this)
-        this.linkHandler = this.linkHandler.bind(this)
+        this.login = this.login.bind(this);
+        this.linkHandler = this.linkHandler.bind(this);
     }
 
     login(result) {
@@ -73,12 +62,14 @@ class Login extends React.Component {
     }
 
     linkHandler(event) {
-        if (!this.state.approved) {event.preventDefault()} 
+        if (!this.state.approved) {
+            event.preventDefault();
+        }
     }
 
     render() {
         return (
-            <div className="modal-wrap hide" id="login" onClick={closeModal}>
+            <div className="modal-wrap hide" id="login">
                 <div className="modal-project">
                     <form name="loginForm">
                         <div className="row">

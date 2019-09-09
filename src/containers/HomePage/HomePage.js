@@ -8,8 +8,8 @@ function HomePage() {
   return (
     <React.Fragment>
       <Header />
-      	<Signup />
-      	<Login />
+      <Signup />
+      <Login />
     </React.Fragment>
   );
 }

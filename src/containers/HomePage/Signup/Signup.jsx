@@ -1,11 +1,10 @@
 import React from "react";
 import { DatePicker } from "react-materialize";
 
-function closeModal(event) {
-	document.querySelectorAll(".modal-wrap").forEach(function(element) {
-		element.classList.add("hide");
-	});
+function closeModal(elementClass) {
+	document.querySelector(`#${elementClass}`).classList.add("hide")
 	document.onkeydown = null;
+	document.onclick= null;
 }
 
 function sendData(event) {
@@ -58,7 +57,7 @@ function sendData(event) {
 			alert("Fill all the fields!");
 		} else if (result == 1) {
 			alert("Успех. Теперь можно войти!");
-			closeModal();
+			closeModal('signup');
 		} else {
 			alert("Error, please, try later!");
 		}
@@ -72,7 +71,7 @@ function Signup() {
 				<div className="modal-project signup-modal">
 					<button
 						className="modal-project-close btn-floating waves-effect waves-light  lighten-1"
-						onClick={closeModal}
+						onClick={() => {closeModal('signup')}}
 					>
 						X
 					</button>

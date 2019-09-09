@@ -3,17 +3,22 @@ import { Link } from "react-router-dom";
 
 function showModal(elementClass) {
 	document.querySelector(`#${elementClass}`).classList.remove("hide");
+	document.onclick= function(event) {
+		if (
+        	event.target.classList.contains("modal-wrap") ||
+        	event.target.classList.contains("modal-project-close")
+    	) { closeModal(elementClass) }
+	}
 	document.onkeydown = function(event) {
-		//закрываем окно на кнопку Esc
-		if (event.keyCode == 27) closeModal();
+		//Close modal window on press Esc
+		if (event.keyCode == 27) closeModal(elementClass);
 	};
 }
 
-function closeModal() {
-	document.querySelectorAll(".modal-wrap").forEach(function(element) {
-		element.classList.add("hide");
-	});
+function closeModal(elementClass) {
+	document.querySelector(`#${elementClass}`).classList.add("hide")
 	document.onkeydown = null;
+	document.onclick= null;
 }
 
 class Header extends React.Component {

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import "./CabinetPage.css";
 
+//Returns value of email which cookie contains
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -20,6 +21,7 @@ function getCookie(cname) {
     return "";
 }
 
+//Data which this function returns is displayed displayed when cabinet page loaded.
 function requestToDB(userEmail) {
     let data = {
         email: userEmail
@@ -56,6 +58,7 @@ function refreshFields(result) {
     }
 }
 
+//Change expires data of cookie to remove it
 function logout() {
     let c = document.cookie;
     let d = new Date();
@@ -64,6 +67,7 @@ function logout() {
     document.cookie = `${c}; expires=${expires}; path=/`;
 }
 
+//This function updates data in database.
 function updateUserData(event) {
     event.preventDefault();
     
