@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './HomePage.css';
 import Header from './Header/Header.jsx';
 import Signup from './Signup/Signup.jsx';
@@ -9,8 +8,8 @@ function HomePage() {
   return (
     <React.Fragment>
       <Header />
-      	<Signup />
-      	<Login />
+      <Signup />
+      <Login />
     </React.Fragment>
   );
 }

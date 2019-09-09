@@ -1,45 +1,84 @@
 import React from "react";
 import { DatePicker } from "react-materialize";
-import { Link } from "react-router-dom";
 
-
-function closeModal(event) {
-    if (
-        event.target.classList.contains("modal-wrap") ||
-        event.target.classList.contains("modal-project-close")
-    ) {
-        document.querySelectorAll(".modal-wrap").forEach(function(element) {
-            element.classList.add("hide");
-        });
-        document.onkeydown = null;
-    }
+function closeModal(elementClass) {
+	document.querySelector(`#${elementClass}`).classList.add("hide")
+	document.onkeydown = null;
+	document.onclick= null;
 }
 
 function sendData(event) {
-    const form = document.forms.signupForm;
-    const name = form.name.value;
-    const pass = form.pass.value;
-    const email = form.email.value;
-    const birthday = form.birthday.value;
-    if (!name || !pass || !email || !birthday) {
-        alert('Fill all the fields!'); 
-        event.preventDefault();
-    }
+	event.preventDefault();
+	const form = document.forms.signupForm;
+	const name = form.name.value;
+	const pass = form.pass.value;
+	const email = form.email.value;
+	const birthday = form.birthday.value;
+	let sex = document.querySelectorAll(".sex");
+	for (let i = 0; i < sex.length; i++) {
+		if (sex[i].checked) {
+			sex = sex[i].value;
+			break;
+		}
+	}
+
+	if (!name || !pass || !email || !birthday || !sex) {
+		alert("Fill all the fields!");
+		return false;
+	}
+
+	let data = {
+		name: name,
+		pass: pass,
+		email: email,
+		birthday: birthday,
+		sex: sex
+	};
+
+	function requestDataToString(dataArr) {
+		let out = "";
+		for (let key in dataArr) {
+			out += `${key}=${dataArr[key]}&`;
+		}
+		return out;
+	}
+
+	fetch("backend/signup.php", {
+		method: "POST",
+		headers: { "Content-Type": "application/x-www-form-urlencoded" },
+		body: requestDataToString(data)
+	})
+		.then(result => result.json())
+		.then(result => signup(result))
+		.catch(error => console.log(error.message));
+
+	function signup(result) {
+		if (result == 2) {
+			alert("Fill all the fields!");
+		} else if (result == 1) {
+			alert("Успех. Теперь можно войти!");
+			closeModal('signup');
+		} else {
+			alert("Error, please, try later!");
+		}
+	}
 }
 
 function Signup() {
 	return (
 		<React.Fragment>
-			<div className="modal-wrap hide" id="signup" onClick= {closeModal}>
+			<div className="modal-wrap hide" id="signup">
 				<div className="modal-project signup-modal">
-					<button 
+					<button
 						className="modal-project-close btn-floating waves-effect waves-light  lighten-1"
-					>X
+						onClick={() => {closeModal('signup')}}
+					>
+						X
 					</button>
 					<div className="form-slider-wrapper">
 						<div className="form-slider">
 							<div className="left-50">
-								<form name= 'signupForm'>
+								<form name="signupForm">
 									<div className="row">
 										<div className="input-field col l6">
 											<input
@@ -137,39 +176,55 @@ function Signup() {
 													<input
 														type="checkbox"
 														id="agree-rules"
-														onChange = {() => {document.querySelector('#signup-submit').classList.toggle('disabled')
+														onChange={() => {
+															document
+																.querySelector(
+																	"#signup-submit"
+																)
+																.classList.toggle(
+																	"disabled"
+																);
 														}}
 													/>
 													<span>Agree Rules</span>
 												</label>
 											</p>
 										</div>
-										<div 
+										<div
 											className="col l6"
-											onClick = {function () {
-    											document.querySelector('.form-slider').style.marginLeft = '-345px';
-    										}}>
+											onClick={function() {
+												document.querySelector(
+													".form-slider"
+												).style.marginLeft = "-345px";
+											}}
+										>
 											<p className="read-rules">
 												(read rules)
 											</p>
 										</div>
 										<div className="col l12 right-align">
-											<Link to= "/cabinet" style={{ textDecoration: 'none', color: 'white' }}>
-												<button
-													id="signup-submit"
-													className="waves-effect waves-light btn disabled"
-													onClick= {sendData}
-												>
-													Sign In
-												</button>
-											</Link>	
+											<button
+												id="signup-submit"
+												className="waves-effect waves-light btn disabled"
+												onClick={sendData}
+											>
+												Sign In
+											</button>
 										</div>
 									</div>
 								</form>
 							</div>
-							<div className="right-50"
-								onClick= {() => {document.querySelector('.form-slider').style.marginLeft = '0'}}>
-								<p className="read-rules-back">&#60;&#60;Back</p>
+							<div
+								className="right-50"
+								onClick={() => {
+									document.querySelector(
+										".form-slider"
+									).style.marginLeft = "0";
+								}}
+							>
+								<p className="read-rules-back">
+									&#60;&#60;Back
+								</p>
 								<p>
 									Lorem ipsum dolor sit amet consectetur
 									adipisicing elit. Doloremque dolores odio
