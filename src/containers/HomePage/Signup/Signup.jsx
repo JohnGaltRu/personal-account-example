@@ -141,7 +141,6 @@ function Signup() {
 														type="radio"
 														value="male"
 														name="sex"
-														checked
 														className="sex"
 													/>
 													<span>Male</span>
